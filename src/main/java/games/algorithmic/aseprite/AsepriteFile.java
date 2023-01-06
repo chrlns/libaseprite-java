@@ -1,7 +1,7 @@
 package games.algorithmic.aseprite;
 
 import java.awt.Image;
-import java.io.DataInputStream;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -11,16 +11,21 @@ import java.io.InputStream;
  * @author Christian Lins <christian@lins.me>
  */
 public class AsepriteFile {
-    private final DataInputStream in;
+    private final BufferedInputStream in;
     
     private Header  header;
     private Frame[] frames;
             
     public AsepriteFile(InputStream in) {
-        this.in = new DataInputStream(in);
+        if (in instanceof BufferedInputStream) {
+            this.in = (BufferedInputStream)in;
+        } else {
+            this.in = new BufferedInputStream(in);
+        }
     }
     
-    public Image getImage() {
+    public Image getImage() throws IOException {
+        readASEFile();
         return null;
     }
     

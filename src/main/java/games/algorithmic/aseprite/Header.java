@@ -1,6 +1,6 @@
 package games.algorithmic.aseprite;
 
-import java.io.DataInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 
 /**
@@ -20,9 +20,9 @@ class Header {
     private int gridXPos, gridYPos;
     private int gridWidth;
     
-    public void read(DataInputStream in) throws IOException {
+    public void read(InputStream in) throws IOException {
         // Skip files size
-        in.skipBytes(4); 
+        in.skip(4); 
         
         int magic = ByteTools.readShort(in);
         if (magic != MAGIC) {
@@ -37,13 +37,13 @@ class Header {
         flags = ByteTools.readInt(in);
         
         // Skip deprecated speed field
-        in.skipBytes(2);
+        in.skip(2);
         
         // Skip 8 zero bytes
-        in.skipBytes(8);
+        in.skip(8);
         
-        paletteTransparentColorIdx = in.readByte();
-        in.skipBytes(3); // Skip 3 bytes
+        paletteTransparentColorIdx = (short)in.read();
+        in.skip(3); // Skip 3 bytes
         
         numColors = ByteTools.readShort(in);
         if (numColors == 0) {
@@ -51,8 +51,8 @@ class Header {
         }
         
         // Pixel ratio is width/height
-        pixelWidth  = in.readByte();
-        pixelHeight = in.readByte();
+        pixelWidth  = (short)in.read();
+        pixelHeight = (short)in.read();
         
         // Grid X/Y position, really a signed short
         gridXPos = ByteTools.readShort(in); 
@@ -61,7 +61,7 @@ class Header {
         gridWidth = ByteTools.readShort(in);
         
         // Skip 84 bytes (reserved for future)
-        in.skipBytes(84);
+        in.skip(84);
     }
     
     public int getNumFrames() {

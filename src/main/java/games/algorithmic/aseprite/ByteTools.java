@@ -11,13 +11,16 @@ class ByteTools {
     public static int toShort(byte[] bytes) {
         assert bytes.length >= 2;
         
-        return (bytes[0] << 8) | bytes[1];
+        return ((bytes[1] << 8) & 0xFF00) | (0xFF & bytes[0]);
     }
     
     public static long toInt(byte[] bytes) {
         assert bytes.length >= 4;
         
-        return (bytes[0] << 24) | (bytes[1] << 16) | (bytes[2] << 8) | bytes[0];
+        return (bytes[3] << 24) | 
+              ((bytes[2] << 16) & 0xFF0000) | 
+              ((bytes[1] << 8) & 0xFF00) | 
+               (bytes[0] & 0xFF);
     }
     
     public static long readInt(InputStream in) throws IOException {

@@ -1,7 +1,7 @@
 package games.algorithmic.aseprite;
 
-import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 /**
  *
@@ -14,7 +14,7 @@ class FrameHeader {
     private int frameDuration;
     private long frameSize;
     
-    public void read(DataInputStream in) throws IOException {
+    public void read(InputStream in) throws IOException {
         frameSize = ByteTools.readInt(in);
         
         int magic = ByteTools.readShort(in);
@@ -26,13 +26,13 @@ class FrameHeader {
         
         frameDuration = ByteTools.readShort(in);
         
-        in.skipBytes(2); // reserved
+        in.skip(2); // reserved
         
         if (numChunks == 0xFFFF) {
             // Use the extended field
             numChunks = ByteTools.readInt(in);
         } else {
-            in.skipBytes(4);
+            in.skip(4);
         }
     }
     

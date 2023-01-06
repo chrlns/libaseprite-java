@@ -1,6 +1,6 @@
 package games.algorithmic.aseprite;
 
-import java.io.DataInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 
 /**
@@ -10,7 +10,7 @@ import java.io.IOException;
 class Frame {
     private FrameHeader header;
     
-    public void read(DataInputStream in) throws IOException {
+    public void read(InputStream in) throws IOException {
         header = new FrameHeader();
         header.read(in);
     }
