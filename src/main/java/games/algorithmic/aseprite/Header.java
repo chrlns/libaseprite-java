@@ -12,29 +12,29 @@ class Header {
     
     private int numFrames;
     private int imageWidth, imageHeight;
-    private int flags;
+    private long flags;
     
     private short paletteTransparentColorIdx;
     private int numColors;
     private short pixelWidth, pixelHeight;
-    private short gridXPos, gridYPos;
+    private int gridXPos, gridYPos;
     private int gridWidth;
     
     public void read(DataInputStream in) throws IOException {
         // Skip files size
         in.skipBytes(4); 
         
-        int magic = in.readInt();
+        int magic = ByteTools.readShort(in);
         if (magic != MAGIC) {
             throw new IOException("Invalid file format.");
         }
         
-        numFrames = in.readShort();
+        numFrames = ByteTools.readShort(in);
         
-        imageWidth  = in.readShort();
-        imageHeight = in.readShort();
+        imageWidth  = ByteTools.readShort(in);
+        imageHeight = ByteTools.readShort(in);
         
-        flags = in.readInt();
+        flags = ByteTools.readInt(in);
         
         // Skip deprecated speed field
         in.skipBytes(2);
@@ -45,7 +45,7 @@ class Header {
         paletteTransparentColorIdx = in.readByte();
         in.skipBytes(3); // Skip 3 bytes
         
-        numColors = in.readShort();
+        numColors = ByteTools.readShort(in);
         if (numColors == 0) {
             numColors = 256; // for old sprites
         }
@@ -55,10 +55,10 @@ class Header {
         pixelHeight = in.readByte();
         
         // Grid X/Y position, really a signed short
-        gridXPos = in.readShort();
-        gridYPos = in.readShort();
+        gridXPos = ByteTools.readShort(in); 
+        gridYPos = ByteTools.readShort(in);
         
-        gridWidth = in.readShort();
+        gridWidth = ByteTools.readShort(in);
         
         // Skip 84 bytes (reserved for future)
         in.skipBytes(84);

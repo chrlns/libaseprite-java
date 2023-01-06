@@ -15,22 +15,22 @@ class FrameHeader {
     private long frameSize;
     
     public void read(DataInputStream in) throws IOException {
-        frameSize = in.readInt();
+        frameSize = ByteTools.readInt(in);
         
-        int magic = in.readShort();
+        int magic = ByteTools.readShort(in);
         if (magic != MAGIC) {
             throw new IOException("Invalid frame header.");
         }
         
-        numChunks = in.readShort();
+        numChunks = ByteTools.readInt(in);
         
-        frameDuration = in.readShort();
+        frameDuration = ByteTools.readShort(in);
         
         in.skipBytes(2); // reserved
         
         if (numChunks == 0xFFFF) {
             // Use the extended field
-            numChunks = in.readInt();
+            numChunks = ByteTools.readInt(in);
         } else {
             in.skipBytes(4);
         }
