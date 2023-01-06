@@ -7,15 +7,15 @@ import java.io.IOException;
  *
  * @author Christian Lins <christian@lins.me>
  */
-public class FrameHeader {
+class FrameHeader {
     public static final int MAGIC = 0xF1FA;
     
     private long numChunks;
     private int frameDuration;
+    private long frameSize;
     
     public void read(DataInputStream in) throws IOException {
-        // Skip frame size
-        in.skipBytes(4);
+        frameSize = in.readInt();
         
         int magic = in.readShort();
         if (magic != MAGIC) {
@@ -36,7 +36,15 @@ public class FrameHeader {
         }
     }
     
-    public long numChunks() {
+    public long getNumChunks() {
         return numChunks;
+    }
+    
+    public int getFrameDuration() {
+        return frameDuration;
+    }
+    
+    public long getFrameSize() {
+        return frameSize;
     }
 }
