@@ -15,10 +15,11 @@ class Header {
     private long flags;
     
     private short paletteTransparentColorIdx;
+    private int colorDepth;
     private int numColors;
     private short pixelWidth, pixelHeight;
     private int gridXPos, gridYPos;
-    private int gridWidth;
+    private int gridWidth, gridHeight;
     
     public void read(InputStream in) throws IOException {
         // Skip files size
@@ -33,6 +34,8 @@ class Header {
         
         imageWidth  = ByteTools.readShort(in);
         imageHeight = ByteTools.readShort(in);
+        
+        colorDepth = ByteTools.readShort(in);
         
         flags = ByteTools.readInt(in);
         
@@ -59,6 +62,7 @@ class Header {
         gridYPos = ByteTools.readShort(in);
         
         gridWidth = ByteTools.readShort(in);
+        gridHeight = ByteTools.readShort(in);
         
         // Skip 84 bytes (reserved for future)
         in.skip(84);

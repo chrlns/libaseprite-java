@@ -36,6 +36,8 @@ public class AsepriteFile {
         header = new Header();
         header.read(in);
         
+        frames = new Frame[header.getNumFrames()];
+        
         for (int i = 0; i < header.getNumFrames(); i++) {
             frames[i] = new Frame();
             frames[i].read(in);

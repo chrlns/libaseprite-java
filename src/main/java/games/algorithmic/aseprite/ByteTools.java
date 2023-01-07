@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- *
+ * Utility functions for getting little endians from bytes.
+ * 
  * @author Christian Lins <christian@lins.me>
  */
 class ByteTools {
@@ -38,7 +39,7 @@ class ByteTools {
     public static byte[] readNum(InputStream in, int len) throws IOException {
         byte[] buf = new byte[len];
         
-        if (in.read(buf) != 2) {
+        if (in.read(buf) != len) {
             throw new IOException("Unexpected end of file.");
         }
         

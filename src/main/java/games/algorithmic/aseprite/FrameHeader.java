@@ -22,7 +22,7 @@ class FrameHeader {
             throw new IOException("Invalid frame header.");
         }
         
-        numChunks = ByteTools.readInt(in);
+        numChunks = ByteTools.readShort(in);
         
         frameDuration = ByteTools.readShort(in);
         
