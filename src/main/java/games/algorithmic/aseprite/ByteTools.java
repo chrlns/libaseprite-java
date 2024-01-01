@@ -1,7 +1,7 @@
 /* MIT License
  *
  * libaseprite-java
- * Copyright (c) 2023 Christian Lins <christian@lins.me>
+ * Copyright (c) 2023-2024 Christian Lins <christian@lins.me>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -58,6 +58,26 @@ class ByteTools {
         byte[] buf = readNum(in, 2);
         
         return toShort(buf);
+    }
+    
+    /**
+     * Reads a fixed point 32bit number. The number has 16 bits before and after
+     * the decimal point. We assume that each of this numbers are signed 16-bit
+     * integers stored in little endian.
+     * @param in
+     * @return
+     * @throws IOException 
+     */
+    public static double readFixed(InputStream in) throws IOException {
+        double num0 = readShort(in);
+        double num1 = readShort(in);
+        
+        // Shifting the point...
+        while (num1 > 0) {
+            num1 /= 10.0;
+        }
+        
+        return num0 + num1;
     }
     
     public static byte[] readNum(InputStream in, int len) throws IOException {

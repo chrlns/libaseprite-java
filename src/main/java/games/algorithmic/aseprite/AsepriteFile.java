@@ -1,7 +1,7 @@
 /* MIT License
  *
  * libaseprite-java
- * Copyright (c) 2023 Christian Lins <christian@lins.me>
+ * Copyright (c) 2023-2024 Christian Lins <christian@lins.me>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -28,6 +28,8 @@ import java.awt.Image;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An Aseprite file.
@@ -63,6 +65,7 @@ public class AsepriteFile {
         frames = new Frame[header.getNumFrames()];
         
         for (int i = 0; i < header.getNumFrames(); i++) {
+            Logger.getLogger("libasesprite-java").log(Level.INFO, "Reading frame #{0}", i);
             frames[i] = new Frame();
             frames[i].read(in);
         }

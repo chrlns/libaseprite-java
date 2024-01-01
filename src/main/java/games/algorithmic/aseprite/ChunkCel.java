@@ -1,7 +1,7 @@
 /* MIT License
  *
  * libaseprite-java
- * Copyright (c) 2023 Christian Lins <christian@lins.me>
+ * Copyright (c) 2023-2024 Christian Lins <christian@lins.me>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,7 @@ package games.algorithmic.aseprite;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Logger;
 
 /**
  *
@@ -35,6 +36,7 @@ public class ChunkCel extends Chunk {
 
     @Override
     protected void read(InputStream in) throws IOException {
+        Logger.getLogger("libasesprite-java").info("Reading Cel chunk");
     }
     
 }

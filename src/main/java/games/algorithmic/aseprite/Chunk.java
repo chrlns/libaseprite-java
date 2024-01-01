@@ -1,7 +1,7 @@
 /* MIT License
  *
  * libaseprite-java
- * Copyright (c) 2023 Christian Lins <christian@lins.me>
+ * Copyright (c) 2023-2024 Christian Lins <christian@lins.me>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,8 @@ package games.algorithmic.aseprite;
 
 import java.io.InputStream;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * An abstract Chunk.
@@ -62,7 +64,7 @@ abstract class Chunk {
             default:
                 // ignore unknown type
                 in.skip((int)(length - 6));
-                System.out.printf("Skip chunk %x\n", type);
+                Logger.getLogger("libasesprite-java").log(Level.WARNING, "Skip chunk type {0}", type);
                 break;
         }
         
