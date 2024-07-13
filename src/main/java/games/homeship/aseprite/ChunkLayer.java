@@ -1,7 +1,7 @@
 /* MIT License
  *
  * libaseprite-java
- * Copyright (c) 2023 Christian Lins <christian@lins.me>
+ * Copyright (c) 2023-2024 Christian Lins <christian@lins.me>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,28 +22,22 @@
  * SOFTWARE.
  */
 
-package games.algorithmic.aseprite;
+package games.homeship.aseprite;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Logger;
 
 /**
- * An ASE Frame.
+ * A Layer Chunk.
  * 
  * @author Christian Lins <christian@lins.me>
  */
-class Frame {
-    private FrameHeader header;
-    private Chunk[] chunks;
-    
-    public void read(InputStream in) throws IOException {
-        header = new FrameHeader();
-        header.read(in);
-        
-        // We cannot support > 2^31-1 chunks
-        chunks = new Chunk[(int)header.getNumChunks()];
-        for (int i = 0; i < header.getNumChunks(); i++) {
-            chunks[i] = Chunk.readAndCreate(in);
-        }
+class ChunkLayer extends Chunk {
+
+    @Override
+    protected void read(InputStream in) throws IOException {
+        Logger.getLogger("libasesprite-java").info("Reading Layer chunk");
     }
+    
 }

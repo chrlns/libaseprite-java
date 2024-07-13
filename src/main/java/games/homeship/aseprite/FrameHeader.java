@@ -1,7 +1,7 @@
 /* MIT License
  *
  * libaseprite-java
- * Copyright (c) 2023-2024 Christian Lins <christian@lins.me>
+ * Copyright (c) 2023 Christian Lins <christian@lins.me>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,53 @@
  * SOFTWARE.
  */
 
-package games.algorithmic.aseprite;
+package games.homeship.aseprite;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Logger;
 
 /**
  *
  * @author Christian Lins <christian@lins.me>
  */
-public class ChunkCel extends Chunk {
-
-    @Override
-    protected void read(InputStream in) throws IOException {
-        Logger.getLogger("libasesprite-java").info("Reading Cel chunk");
+class FrameHeader {
+    public static final int MAGIC = 0xF1FA;
+    
+    private long numChunks;
+    private int frameDuration;
+    private long frameSize;
+    
+    public void read(InputStream in) throws IOException {
+        frameSize = ByteTools.readInt(in);
+        
+        int magic = ByteTools.readShort(in);
+        if (magic != MAGIC) {
+            throw new IOException("Invalid frame header.");
+        }
+        
+        numChunks = ByteTools.readShort(in);
+        
+        frameDuration = ByteTools.readShort(in);
+        
+        in.skip(2); // reserved
+        
+        if (numChunks == 0xFFFF) {
+            // Use the extended field
+            numChunks = ByteTools.readInt(in);
+        } else {
+            in.skip(4);
+        }
     }
     
+    public long getNumChunks() {
+        return numChunks;
+    }
+    
+    public int getFrameDuration() {
+        return frameDuration;
+    }
+    
+    public long getFrameSize() {
+        return frameSize;
+    }
 }

@@ -22,53 +22,28 @@
  * SOFTWARE.
  */
 
-package games.algorithmic.aseprite;
+package games.homeship.aseprite;
 
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
 
 /**
- *
+ * An ASE Frame.
+ * 
  * @author Christian Lins <christian@lins.me>
  */
-class FrameHeader {
-    public static final int MAGIC = 0xF1FA;
-    
-    private long numChunks;
-    private int frameDuration;
-    private long frameSize;
+class Frame {
+    private FrameHeader header;
+    private Chunk[] chunks;
     
     public void read(InputStream in) throws IOException {
-        frameSize = ByteTools.readInt(in);
+        header = new FrameHeader();
+        header.read(in);
         
-        int magic = ByteTools.readShort(in);
-        if (magic != MAGIC) {
-            throw new IOException("Invalid frame header.");
+        // We cannot support > 2^31-1 chunks
+        chunks = new Chunk[(int)header.getNumChunks()];
+        for (int i = 0; i < header.getNumChunks(); i++) {
+            chunks[i] = Chunk.readAndCreate(in);
         }
-        
-        numChunks = ByteTools.readShort(in);
-        
-        frameDuration = ByteTools.readShort(in);
-        
-        in.skip(2); // reserved
-        
-        if (numChunks == 0xFFFF) {
-            // Use the extended field
-            numChunks = ByteTools.readInt(in);
-        } else {
-            in.skip(4);
-        }
-    }
-    
-    public long getNumChunks() {
-        return numChunks;
-    }
-    
-    public int getFrameDuration() {
-        return frameDuration;
-    }
-    
-    public long getFrameSize() {
-        return frameSize;
     }
 }

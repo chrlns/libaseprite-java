@@ -22,52 +22,22 @@
  * SOFTWARE.
  */
 
-package games.algorithmic.aseprite;
+package games.homeship.aseprite;
 
-import java.awt.Image;
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * An Aseprite file.
+ * Palette chunk.
  * 
  * @author Christian Lins <christian@lins.me>
  */
-public class AsepriteFile {
-    private final BufferedInputStream in;
-    
-    private Header  header;
-    private Frame[] frames;
-            
-    public AsepriteFile(InputStream in) {
-        if (in instanceof BufferedInputStream) {
-            this.in = (BufferedInputStream)in;
-        } else {
-            this.in = new BufferedInputStream(in);
-        }
+class ChunkPalette extends Chunk {
+
+    @Override
+    protected void read(InputStream in) throws IOException {
+        Logger.getLogger("libasesprite-java").info("Reading Palette chunk");
     }
     
-    public Image getImage() throws IOException {
-        readASEFile();
-        return null;
-    }
-    
-    /**
-     * Read the ASE file.
-     */
-    private void readASEFile() throws IOException {
-        header = new Header();
-        header.read(in);
-        
-        frames = new Frame[header.getNumFrames()];
-        
-        for (int i = 0; i < header.getNumFrames(); i++) {
-            Logger.getLogger("libasesprite-java").log(Level.INFO, "Reading frame #{0}", i);
-            frames[i] = new Frame();
-            frames[i].read(in);
-        }
-    }
 }

@@ -22,22 +22,21 @@
  * SOFTWARE.
  */
 
-package games.algorithmic.aseprite;
+package games.homeship.aseprite;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
 
 /**
- * A Layer Chunk.
- * 
+ *
  * @author Christian Lins <christian@lins.me>
  */
-class ChunkLayer extends Chunk {
+public class ChunkCel extends Chunk {
 
     @Override
     protected void read(InputStream in) throws IOException {
-        Logger.getLogger("libasesprite-java").info("Reading Layer chunk");
+        Logger.getLogger("libasesprite-java").info("Reading Cel chunk");
     }
     
 }

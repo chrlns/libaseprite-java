@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-package games.algorithmic.aseprite.gui;
+package games.homeship.aseprite.gui;
 
-import games.algorithmic.aseprite.AsepriteFile;
+import games.homeship.aseprite.AsepriteFile;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;

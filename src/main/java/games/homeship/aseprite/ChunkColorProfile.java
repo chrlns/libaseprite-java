@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package games.algorithmic.aseprite;
+package games.homeship.aseprite;
 
 import java.io.IOException;
 import java.io.InputStream;
