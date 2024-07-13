@@ -26,6 +26,7 @@ package games.homeship.aseprite;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -38,6 +39,25 @@ class ChunkPalette extends Chunk {
     @Override
     protected void read(InputStream in) throws IOException {
         Logger.getLogger("libasesprite-java").info("Reading Palette chunk");
+        
+        long numEntries = ByteTools.readInt(in);
+        long firstColorIdx = ByteTools.readInt(in);
+        long lastColorIdx = ByteTools.readInt(in);
+        in.skip(8); // Skip reserved bytes
+        
+        for (long i = firstColorIdx; i <= lastColorIdx; i++) {
+            int hasName = ByteTools.readShort(in);
+            
+            short r = ByteTools.readByte(in);
+            short g = ByteTools.readByte(in);
+            short b = ByteTools.readByte(in);
+            short a = ByteTools.readByte(in);
+            
+            if (hasName == 1) {
+                var name = ByteTools.readString(in);
+                Logger.getLogger("libasesprite-java").log(Level.INFO, "Palette entry name = {0}", name);
+            }
+        }
     }
     
 }

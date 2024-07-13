@@ -24,8 +24,8 @@
 
 package games.homeship.aseprite;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

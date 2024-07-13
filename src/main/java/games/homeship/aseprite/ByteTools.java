@@ -33,12 +33,6 @@ import java.io.InputStream;
  * @author Christian Lins <christian@lins.me>
  */
 class ByteTools {
-    public static int toShort(byte[] bytes) {
-        assert bytes.length >= 2;
-        
-        return ((bytes[1] << 8) & 0xFF00) | (0xFF & bytes[0]);
-    }
-    
     public static long toInt(byte[] bytes) {
         assert bytes.length >= 4;
         
@@ -48,16 +42,32 @@ class ByteTools {
                (bytes[0] & 0xFF);
     }
     
+    public static int toShort(byte[] bytes) {
+        assert bytes.length >= 2;
+        
+        return ((bytes[1] << 8) & 0xFF00) | (0xFF & bytes[0]);
+    }
+    
+    public static short toByte(byte[] bytes) {
+        return (short)(~bytes[0] + 1);
+    }
+    
     public static long readInt(InputStream in) throws IOException {
-        byte[] buf = readNum(in, 4);
+        byte[] buf = readBytes(in, 4);
         
         return toInt(buf);
     }
     
     public static int readShort(InputStream in) throws IOException {
-        byte[] buf = readNum(in, 2);
+        byte[] buf = readBytes(in, 2);
         
         return toShort(buf);
+    }
+    
+    public static short readByte(InputStream in) throws IOException {
+        byte[] buf = readBytes(in, 1);
+        
+        return toByte(buf);
     }
     
     /**
@@ -80,7 +90,7 @@ class ByteTools {
         return num0 + num1;
     }
     
-    public static byte[] readNum(InputStream in, int len) throws IOException {
+    public static byte[] readBytes(InputStream in, int len) throws IOException {
         byte[] buf = new byte[len];
         
         if (in.read(buf) != len) {
@@ -88,5 +98,12 @@ class ByteTools {
         }
         
         return buf;
+    }
+    
+    public static String readString(InputStream in) throws IOException {
+        int len = readShort(in);
+        var buf = readBytes(in, len);
+        var str = new String(buf);
+        return str;
     }
 }
