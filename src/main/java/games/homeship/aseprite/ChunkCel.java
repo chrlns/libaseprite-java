@@ -27,6 +27,7 @@ package games.homeship.aseprite;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
+import static games.homeship.aseprite.ByteTools.*;
 
 /**
  *
@@ -34,9 +35,31 @@ import java.util.logging.Logger;
  */
 public class ChunkCel extends Chunk {
 
+    static final int TYPE_RAW = 0;
+    static final int TYPE_LINKED_CEL = 1;
+    static final int TYPE_COMPRESSED_IMAGE = 2;
+    static final int TYPE_COMPRESSED_TILEMAP = 3;
+    
     @Override
     protected void read(InputStream in) throws IOException {
         Logger.getLogger("libasesprite-java").info("Reading Cel chunk");
+        
+        int layerIdx = readShort(in); // WORD
+        int xPos = readShort(in); // SHORT (same size as WORD but signed), does this work?
+        int yPos = readShort(in); // SHORT (same size as WORD but signed), does this work?
+        
+        short opacityLevel = readByte(in);
+        int celType = readShort(in);
+        int zIdx = readShort(in); // SHORT
+        
+        in.skip(5); // Skip reserved bytes
+        if (celType == TYPE_COMPRESSED_IMAGE) {
+            int width = readShort(in);
+            int height = readShort(in);
+            // Read compressed pixels
+        } else {
+            throw new UnsupportedOperationException("Currently only compressed image cels are supported!");
+        }
     }
     
 }
