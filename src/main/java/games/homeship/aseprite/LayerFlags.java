@@ -21,45 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
 package games.homeship.aseprite;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
- * A Layer Chunk.
- * 
+ *
  * @author Christian Lins <christian@lins.me>
  */
-class ChunkLayer extends Chunk {
-
-    private int flags;
-    private int type;
-    private int childLevel;
-    private int blendMode;
+public enum LayerFlags {
+   
+    FLAG_VISIBLE(1),
+    FLAG_EDITABLE(2),
+    FLAG_LOCK_MOVEMENT(4),
+    FLAG_BACKGROUND(8),
+    FLAG_PREFER_LINKED_CELS(16),
+    FLAG_DISPLAY_COLLAPSED(32),
+    FLAG_REFERENCE_LAYER(64);    
     
-    @Override
-    protected void read(InputStream in) throws IOException {
-        Logger.getLogger("libasesprite-java").info("Reading Layer chunk");
-        
-        flags = ByteTools.readShort(in);
-        type = ByteTools.readShort(in);
-        childLevel = ByteTools.readShort(in);
-        int defaultLayerWidth = ByteTools.readShort(in); // ignored
-        int defaultLayerHeight = ByteTools.readShort(in); // ignored
-        blendMode = ByteTools.readShort(in);
-        short opacity = ByteTools.readByte(in);
-        
-        in.skip(3); // Skip reserved bytes
-        String name = ByteTools.readString(in);
-        Logger.getLogger("libasesprite-java").log(Level.INFO, "Read Layer {0}", name);
-        
-        if (LayerType.TYPE_TILEMAP.equals(type)) {
-            long tilesetIdx = ByteTools.readInt(in);
-        }
+    private final int bits;
+    
+    private LayerFlags(int bits) {
+        this.bits = bits;
     }
     
+    public int bits() {
+        return bits;
+    }
 }

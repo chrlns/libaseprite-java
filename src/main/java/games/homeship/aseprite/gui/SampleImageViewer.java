@@ -46,9 +46,12 @@ import javax.swing.JPanel;
  * @author Christian Lins <christian@lins.me>
  */
 public class SampleImageViewer extends JFrame {
+    
+    final ImagePanel ImagePanel;
+    
     public SampleImageViewer() {
         final SampleImageViewer viewer = this;
-        final ImagePanel panel = new ImagePanel();
+        ImagePanel = new ImagePanel();
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(800, 600);
@@ -59,7 +62,7 @@ public class SampleImageViewer extends JFrame {
             fc.showOpenDialog(viewer);
             
             if (fc.getSelectedFile() != null) {
-                panel.loadImage(fc.getSelectedFile());
+                ImagePanel.loadImage(fc.getSelectedFile());
             }
         });
         
@@ -67,7 +70,10 @@ public class SampleImageViewer extends JFrame {
     }
     
     public static void main(String[] args) {
-        new SampleImageViewer().setVisible(true);
+        var viewer = new SampleImageViewer();
+        viewer.setVisible(true);
+        if (args.length > 0)
+            viewer.ImagePanel.loadImage(new File(args[0]));
     }
 }
 
